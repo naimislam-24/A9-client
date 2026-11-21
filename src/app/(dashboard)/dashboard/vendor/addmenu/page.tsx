@@ -14,6 +14,8 @@ import {
   Utensils,
   FileText,
 } from "lucide-react";
+import { useSession } from "@/lib/auth-client";
+import { email } from "better-auth";
 
 const categories = [
   "Pizza",
@@ -28,6 +30,8 @@ const categories = [
 ];
 
 const AddMenuItemPage = () => {
+  const { data: session } = useSession();
+
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -130,6 +134,7 @@ const AddMenuItemPage = () => {
         price: Number(formData.get("price")),
         location: formData.get("location"),
         imageUrl,
+        email: session?.user?.email,
       };
 
       // 3. POST menu item to backend

@@ -48,7 +48,7 @@ const Navbar = () => {
     },
     {
       name: "Browse Menu",
-      href: "/menu",
+      href: "/cards",
     },
     {
       name: "Dashboard",
