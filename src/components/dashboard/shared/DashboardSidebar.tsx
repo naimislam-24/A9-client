@@ -249,23 +249,23 @@ interface MenuItems {
 const menuItems: MenuItems = {
   admin: [
     {
-      name: "Admin",
-      href: "/dashboard/admin",
+      name: "Overview",
+      href: "/dashboard/admin/overview",
       icon: LayoutDashboard,
     },
     {
-      name: "User Management",
-      href: "/dashboard/admin/usermanagement",
+      name: "Manage Users",
+      href: "/dashboard/admin/manageusers",
       icon: Users,
     },
     {
-      name: "Restaurant Management",
-      href: "/dashboard/admin/restaurants",
+      name: "Manage Menu Items",
+      href: "/dashboard/admin/managemenuitem",
       icon: Store,
     },
     {
-      name: "Order Management",
-      href: "/dashboard/admin/orders",
+      name: "Transactions",
+      href: "/dashboard/admin/transactions",
       icon: ShoppingBag,
     },
   ],
@@ -309,11 +309,6 @@ const menuItems: MenuItems = {
       href: "/dashboard/customer/myorders",
       icon: ShoppingBag,
     },
-    // {
-    //   name: "My Profile",
-    //   href: "/dashboard/customer/profile",
-    //   icon: User,
-    // },
   ],
 };
 
