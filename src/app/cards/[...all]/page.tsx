@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { MapPin, ArrowLeft, ShoppingBag, Tag } from "lucide-react";
-import BoockCard from "@/components/ordernow/OrderCard";
+import OrderCard from "@/components/ordernow/OrderCard";
 
 interface VendorProduct {
   _id: string;
@@ -171,7 +171,7 @@ const ProductDetailsPage = async ({ params }: PageProps) => {
               <ShoppingBag size={20} />
               Order Now
             </button> */}
-            <BoockCard product={product} />
+            <OrderCard product={product} />
           </div>
         </div>
       </div>
