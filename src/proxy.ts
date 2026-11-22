@@ -15,5 +15,18 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/customer/overview", "/cards/:path"], // Specify the routes the middleware applies to
+  matcher: [
+    "/dashboard/customer/overview",
+    "/cards/:path",
+    "/dashboard/vendor/addmenu",
+    "/dashboard/vendor/customer",
+    "/dashboard/vendor/mymenu",
+    "/dashboard/vendor/overview",
+    "/dashboard/vendor/subscription",
+    "/dashboard/customer/myorders",
+    "/dashboard/admin/managemenuitem",
+    "/dashboard/admin/manageusers",
+    "/dashboard/admin/overview",
+    "/dashboard/admin/transactions",
+  ], // Specify the routes the middleware applies to
 };
