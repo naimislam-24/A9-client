@@ -164,13 +164,6 @@ const ProductDetailsPage = async ({ params }: PageProps) => {
             </div>
 
             {/* Order Button */}
-            {/* <button
-              type="button"
-              className="mt-7 flex h-14 w-full items-center justify-center gap-3 rounded-xl bg-orange-500 font-bold text-white shadow-lg shadow-orange-200 transition hover:bg-orange-600 active:scale-[0.98]"
-            >
-              <ShoppingBag size={20} />
-              Order Now
-            </button> */}
             <OrderCard product={product} />
           </div>
         </div>
