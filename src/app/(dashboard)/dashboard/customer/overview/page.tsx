@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Utensils, CheckCircle2, ShoppingCart, BadgeCheck } from "lucide-react";
 import pizza from "@/app/image/banner.jpg";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 interface Product {
   _id: string;
@@ -25,12 +26,17 @@ const OverviewPage = () => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
+        const token = await getTokenFromClient();
+
         const [productRes, orderRes] = await Promise.all([
           fetch(`${process.env.NEXT_PUBLIC_API_URL}/usersvendor`, {
             cache: "no-store",
           }),
           fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders`, {
             cache: "no-store",
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
           }),
         ]);
 
@@ -93,14 +99,6 @@ const OverviewPage = () => {
       cardBg: "bg-gradient-to-br from-green-50 to-white",
       border: "border-green-100",
     },
-    // {
-    //   title: "Pending Orders",
-    //   value: pendingOrders,
-    //   icon: ShoppingCart,
-    //   iconBg: "bg-orange-500",
-    //   cardBg: "bg-gradient-to-br from-orange-50 to-white",
-    //   border: "border-orange-100",
-    // },
     {
       title: "Pending Orders",
       value: pendingOrderss,

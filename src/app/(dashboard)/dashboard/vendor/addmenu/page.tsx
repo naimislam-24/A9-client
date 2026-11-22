@@ -15,7 +15,7 @@ import {
   FileText,
 } from "lucide-react";
 import { useSession } from "@/lib/auth-client";
-import { email } from "better-auth";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 const categories = [
   "Pizza",
@@ -138,10 +138,12 @@ const AddMenuItemPage = () => {
       };
 
       // 3. POST menu item to backend
+      const token = await getTokenFromClient();
       const response = await fetch(`${apiUrl.replace(/\/$/, "")}/usersvendor`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
         },
         credentials: "include",
         body: JSON.stringify(menuItem),

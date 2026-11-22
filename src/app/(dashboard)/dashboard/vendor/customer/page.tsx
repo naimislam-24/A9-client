@@ -9,6 +9,7 @@ import {
   Loader2,
 } from "lucide-react";
 import Image from "next/image";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 interface Order {
   _id: string;
@@ -27,7 +28,12 @@ const CustomerPage = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders`);
+        const token = await getTokenFromClient();
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders`, {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        });
 
         if (!res.ok) {
           throw new Error("Failed to fetch orders");

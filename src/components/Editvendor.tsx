@@ -23,6 +23,7 @@ import {
   Utensils,
   FileText,
 } from "lucide-react";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 const categories = [
   "Pizza",
@@ -142,25 +143,6 @@ const Editvendor = ({ item }: EditvendorProps) => {
       const formData = new FormData(form);
 
       // 1. Upload image to ImgBB
-      // const imageData = new FormData();
-      // imageData.append("image", image);
-
-      // const imageResponse = await fetch(
-      //   `https://api.imgbb.com/1/upload?key=${imgbbKey}`,
-      //   {
-      //     method: "POST",
-      //     body: imageData,
-      //   },
-      // );
-
-      // const imageResult = await imageResponse.json();
-      // // console.log(imageResult);
-
-      // if (!imageResponse.ok || !imageResult.success) {
-      //   throw new Error("Image upload failed. Please try again.");
-      // }
-
-      // const imageUrl = imageResult.data.display_url;
       let imageUrl = item?.imageUrl;
 
       if (image) {
@@ -197,12 +179,14 @@ const Editvendor = ({ item }: EditvendorProps) => {
       // 3. POST menu item to backend
       const { _id, ...updateData } = menuItem;
 
+      const token = await getTokenFromClient();
       const response = await fetch(
         `${apiUrl.replace(/\/$/, "")}/usersvendor/${item._id}`,
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            authorization: `Bearer ${token}`,
           },
           credentials: "include",
           body: JSON.stringify(updateData),

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ArrowLeft, ShoppingBag } from "lucide-react";
 import { useSession } from "@/lib/auth-client";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 interface BoockCardProps {
   product: {
@@ -43,11 +44,13 @@ const OrderCard = ({ product }: BoockCardProps) => {
 
     try {
       setLoading(true);
+      const token = getTokenFromClient();
 
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(orderData),
       });

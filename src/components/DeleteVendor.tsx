@@ -11,6 +11,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 import { Trash2, Loader2 } from "lucide-react";
 import { useState } from "react";
@@ -30,11 +31,15 @@ const DeleteVendor = ({ item, onDelete }: DeleteVendorProps) => {
     try {
       setLoading(true);
 
+      const token = await getTokenFromClient();
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/usersvendor/${item._id}`,
         {
           method: "DELETE",
           credentials: "include",
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
         },
       );
 

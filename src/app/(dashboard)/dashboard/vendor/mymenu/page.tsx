@@ -15,6 +15,7 @@ import {
 import Editvendor from "@/components/Editvendor";
 import DeleteVendor from "@/components/DeleteVendor";
 import { useSession } from "@/lib/auth-client";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 type TMenuItem = {
   _id: string;
@@ -46,8 +47,14 @@ export default function MyMenuItems() {
         setLoading(true);
         setError("");
 
+        const token = await getTokenFromClient();
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/usersvendor/featured/${session?.user?.email}`,
+          {
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
+          },
         );
 
         if (!response.ok) {

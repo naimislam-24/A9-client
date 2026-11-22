@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Clock, CheckCircle2, Eye, Utensils, MapPin, Tag } from "lucide-react";
 import { useSession } from "@/lib/auth-client";
 import Link from "next/link";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 type TMenuItem = {
   _id: string;
@@ -27,8 +28,14 @@ export default function RecentItems() {
   useEffect(() => {
     const fetchItems = async () => {
       try {
+        const token = await getTokenFromClient();
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/usersvendor/featured/${session?.user?.email}`,
+          {
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
+          },
         );
 
         if (!response.ok) {

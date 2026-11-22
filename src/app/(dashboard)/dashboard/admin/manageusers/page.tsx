@@ -25,6 +25,7 @@ import {
   ShieldAlert,
   RefreshCw,
 } from "lucide-react";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 interface User {
   _id: string;
@@ -49,7 +50,12 @@ const Manageusers = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await fetch(`${API_URL}/users`);
+        const token = await getTokenFromClient();
+        const res = await fetch(`${API_URL}/users`, {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        });
 
         if (!res.ok) {
           throw new Error("Failed to fetch users");
@@ -94,10 +100,12 @@ const Manageusers = () => {
     try {
       setUpdating(id);
 
+      const token = await getTokenFromClient();
       const res = await fetch(`${API_URL}/users/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           isBlocked: !isBlocked,

@@ -10,6 +10,7 @@ import {
   Utensils,
   MapPin,
 } from "lucide-react";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 interface MenuItem {
   _id: string;
@@ -56,10 +57,12 @@ const Managemenuitem = () => {
     try {
       setUpdating(id);
 
+      const token = await getTokenFromClient();
       const res = await fetch(`${API_URL}/usersvendor/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           approvalStatus: status,
