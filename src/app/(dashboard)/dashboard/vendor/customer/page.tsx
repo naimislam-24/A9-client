@@ -1,3 +1,160 @@
+// "use client";
+
+// import React, { useEffect, useState } from "react";
+// import {
+//   ShoppingBag,
+//   MapPin,
+//   CalendarDays,
+//   Package,
+//   Loader2,
+// } from "lucide-react";
+
+// interface Order {
+//   _id: string;
+//   productId: string;
+//   itemName: string;
+//   price: number;
+//   deliveryDate: string;
+//   deliveryAddress: string;
+// }
+
+// const CustomerPage = () => {
+//   const [orders, setOrders] = useState<Order[]>([]);
+//   const [loading, setLoading] = useState(true);
+
+//   useEffect(() => {
+//     const fetchOrders = async () => {
+//       try {
+//         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders`);
+
+//         if (!res.ok) {
+//           throw new Error("Failed to fetch orders");
+//         }
+
+//         const data = await res.json();
+//         setOrders(data);
+//       } catch (error) {
+//         console.error("Error fetching orders:", error);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchOrders();
+//   }, []);
+
+//   if (loading) {
+//     return (
+//       <div className="flex min-h-[400px] items-center justify-center">
+//         <Loader2 className="animate-spin text-orange-500" size={35} />
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div className="min-h-screen bg-gray-50 px-4 py-8 sm:px-6 lg:px-8">
+//       <div className="mx-auto max-w-7xl">
+//         Header
+//         <div className="mb-8">
+//           <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
+//             Customer Orders
+//           </h1>
+//           <p className="mt-2 text-sm text-gray-500">
+//             View all orders placed by your customers.
+//           </p>
+//         </div>
+
+//         {/* Order Summary */}
+//         <div className="mb-8 rounded-2xl border border-orange-100 bg-white p-5 shadow-sm">
+//           <div className="flex items-center gap-4">
+//             <div className="rounded-xl bg-orange-100 p-3">
+//               <ShoppingBag className="text-orange-600" size={25} />
+//             </div>
+//             <div>
+//               <p className="text-sm text-gray-500">Total Orders</p>
+//               <h2 className="text-2xl font-bold text-gray-900">
+//                 {orders.length}
+//               </h2>
+//             </div>
+//           </div>
+//         </div>
+
+//         {/* Orders */}
+//         {orders.length === 0 ? (
+//           <div className="rounded-2xl border border-dashed border-gray-300 bg-white py-16 text-center">
+//             <Package className="mx-auto mb-4 text-gray-400" size={45} />
+//             <h2 className="text-xl font-semibold text-gray-800">
+//               No Orders Found
+//             </h2>
+//             <p className="mt-2 text-sm text-gray-500">
+//               Customer orders will appear here.
+//             </p>
+//           </div>
+//         ) : (
+//           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+//             {orders.map((order) => (
+//               <div
+//                 key={order._id}
+//                 className="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-orange-200 hover:shadow-lg"
+//               >
+//                 <div className="mb-5 flex items-center justify-between">
+//                   <div className="flex items-center gap-2">
+//                     <div className="rounded-lg bg-orange-100 p-2">
+//                       <ShoppingBag size={19} className="text-orange-600" />
+//                     </div>
+//                     <span className="text-sm font-semibold text-gray-700">
+//                       Customer Order
+//                     </span>
+//                   </div>
+
+//                   <span className="rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-600">
+//                     Ordered
+//                   </span>
+//                 </div>
+
+//                 <h2 className="mb-3 text-xl font-bold text-gray-900">
+//                   {order.itemName}
+//                 </h2>
+
+//                 <div className="space-y-3 border-t border-gray-100 pt-4">
+//                   <div className="flex items-center gap-3 text-sm text-gray-600">
+//                     <Package size={17} className="text-orange-500" />
+//                     <span>Product ID: {order.productId}</span>
+//                   </div>
+
+//                   <div className="flex items-center gap-3 text-sm text-gray-600">
+//                     <CalendarDays size={17} className="text-orange-500" />
+//                     <span>Delivery: {order.deliveryDate}</span>
+//                   </div>
+
+//                   <div className="flex items-start gap-3 text-sm text-gray-600">
+//                     <MapPin
+//                       size={17}
+//                       className="mt-0.5 shrink-0 text-orange-500"
+//                     />
+//                     <span>{order.deliveryAddress}</span>
+//                   </div>
+//                 </div>
+
+//                 <div className="mt-5 flex items-center justify-between border-t border-gray-100 pt-4">
+//                   <span className="text-sm font-medium text-gray-500">
+//                     Total Price
+//                   </span>
+//                   <span className="text-xl font-bold text-orange-600">
+//                     ${order.price}
+//                   </span>
+//                 </div>
+//               </div>
+//             ))}
+//           </div>
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default CustomerPage;
+
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -8,6 +165,7 @@ import {
   Package,
   Loader2,
 } from "lucide-react";
+import Image from "next/image";
 
 interface Order {
   _id: string;
@@ -16,6 +174,7 @@ interface Order {
   price: number;
   deliveryDate: string;
   deliveryAddress: string;
+  imageUrl: string;
 }
 
 const CustomerPage = () => {
@@ -46,102 +205,100 @@ const CustomerPage = () => {
   if (loading) {
     return (
       <div className="flex min-h-[400px] items-center justify-center">
-        <Loader2 className="animate-spin text-orange-500" size={35} />
+        <Loader2 className="animate-spin text-orange-500" size={30} />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-8 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-white px-4 py-6 sm:px-6">
       <div className="mx-auto max-w-7xl">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
-            Customer Orders
+        <div className="mb-5 border-b border-gray-100 pb-4">
+          <h1 className="text-xl font-bold text-gray-900 sm:text-2xl">
+            Orders for your shop
           </h1>
-          <p className="mt-2 text-sm text-gray-500">
-            View all orders placed by your customers.
+          <p className="mt-1 text-xs text-gray-500">
+            View and manage all orders placed by your customers.
           </p>
         </div>
 
-        {/* Order Summary */}
-        <div className="mb-8 rounded-2xl border border-orange-100 bg-white p-5 shadow-sm">
-          <div className="flex items-center gap-4">
-            <div className="rounded-xl bg-orange-100 p-3">
-              <ShoppingBag className="text-orange-600" size={25} />
-            </div>
-            <div>
-              <p className="text-sm text-gray-500">Total Orders</p>
-              <h2 className="text-2xl font-bold text-gray-900">
-                {orders.length}
-              </h2>
-            </div>
+        {/* Total Orders */}
+        <div className="mb-4 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <ShoppingBag size={17} className="text-orange-500" />
+            <span className="text-sm font-semibold text-gray-700">
+              All Orders
+            </span>
           </div>
+
+          <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-600">
+            {orders.length} Orders
+          </span>
         </div>
 
-        {/* Orders */}
+        {/* Orders List */}
         {orders.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-gray-300 bg-white py-16 text-center">
-            <Package className="mx-auto mb-4 text-gray-400" size={45} />
-            <h2 className="text-xl font-semibold text-gray-800">
+          <div className="rounded-xl border border-dashed border-gray-200 py-16 text-center">
+            <Package className="mx-auto mb-3 text-gray-300" size={38} />
+            <h2 className="text-base font-semibold text-gray-800">
               No Orders Found
             </h2>
-            <p className="mt-2 text-sm text-gray-500">
+            <p className="mt-1 text-xs text-gray-500">
               Customer orders will appear here.
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="divide-y divide-gray-100 border-t border-gray-100">
             {orders.map((order) => (
               <div
                 key={order._id}
-                className="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-orange-200 hover:shadow-lg"
+                className="flex items-center justify-between gap-3 py-4 transition-colors hover:bg-gray-50/70"
               >
-                <div className="mb-5 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="rounded-lg bg-orange-100 p-2">
-                      <ShoppingBag size={19} className="text-orange-600" />
+                {/* Product Info */}
+                <div className="flex min-w-0 items-center gap-3">
+                  {/* Product Icon */}
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-orange-50">
+                    <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-orange-50">
+                      <Image
+                        src={order.imageUrl}
+                        alt={order.itemName}
+                        fill
+                        sizes="48px"
+                        className="object-cover"
+                      />
                     </div>
-                    <span className="text-sm font-semibold text-gray-700">
-                      Customer Order
-                    </span>
                   </div>
 
-                  <span className="rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-600">
+                  {/* Details */}
+                  <div className="min-w-0">
+                    <h2 className="truncate text-sm font-bold text-gray-900">
+                      {order.itemName}
+                    </h2>
+
+                    <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-gray-500">
+                      <span>Product ID: {order.productId}</span>
+
+                      <span className="hidden text-gray-300 sm:inline">|</span>
+
+                      <span>Delivery: {order.deliveryDate}</span>
+                    </div>
+
+                    <div className="mt-1 flex items-center gap-1 text-[11px] text-gray-400">
+                      <MapPin size={12} className="shrink-0" />
+                      <span className="truncate">{order.deliveryAddress}</span>
+                    </div>
+
+                    <p className="mt-1 text-xs font-semibold text-orange-600">
+                      ${order.price}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Status */}
+                <div className="shrink-0">
+                  <span className="rounded-full bg-green-50 px-3 py-1.5 text-[10px] font-semibold text-green-600">
                     Ordered
-                  </span>
-                </div>
-
-                <h2 className="mb-3 text-xl font-bold text-gray-900">
-                  {order.itemName}
-                </h2>
-
-                <div className="space-y-3 border-t border-gray-100 pt-4">
-                  <div className="flex items-center gap-3 text-sm text-gray-600">
-                    <Package size={17} className="text-orange-500" />
-                    <span>Product ID: {order.productId}</span>
-                  </div>
-
-                  <div className="flex items-center gap-3 text-sm text-gray-600">
-                    <CalendarDays size={17} className="text-orange-500" />
-                    <span>Delivery: {order.deliveryDate}</span>
-                  </div>
-
-                  <div className="flex items-start gap-3 text-sm text-gray-600">
-                    <MapPin
-                      size={17}
-                      className="mt-0.5 shrink-0 text-orange-500"
-                    />
-                    <span>{order.deliveryAddress}</span>
-                  </div>
-                </div>
-
-                <div className="mt-5 flex items-center justify-between border-t border-gray-100 pt-4">
-                  <span className="text-sm font-medium text-gray-500">
-                    Total Price
-                  </span>
-                  <span className="text-xl font-bold text-orange-600">
-                    ${order.price}
                   </span>
                 </div>
               </div>
