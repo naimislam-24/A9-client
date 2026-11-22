@@ -300,20 +300,20 @@ const menuItems: MenuItems = {
 
   customer: [
     {
-      name: "Customar",
-      href: "/dashboard/customer",
+      name: "Overview",
+      href: "/dashboard/customer/overview",
       icon: LayoutDashboard,
     },
     {
       name: "My Orders",
-      href: "/dashboard/customer/orders",
+      href: "/dashboard/customer/myorders",
       icon: ShoppingBag,
     },
-    {
-      name: "My Profile",
-      href: "/dashboard/customer/profile",
-      icon: User,
-    },
+    // {
+    //   name: "My Profile",
+    //   href: "/dashboard/customer/profile",
+    //   icon: User,
+    // },
   ],
 };
 
