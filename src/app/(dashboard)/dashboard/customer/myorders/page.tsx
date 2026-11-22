@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { ShoppingBag, MapPin, CalendarDays, X } from "lucide-react";
+import DeleteUser from "@/components/DeleteUser";
 
 interface Order {
   _id: string;
@@ -152,7 +153,7 @@ const MyOrdersPage = () => {
                   </span>
 
                   {/* Cancel Button */}
-                  <button
+                  {/* <button
                     type="button"
                     disabled
                     title="Cancel API is not connected yet"
@@ -160,7 +161,8 @@ const MyOrdersPage = () => {
                   >
                     <X size={14} />
                     Cancel
-                  </button>
+                  </button> */}
+                  <DeleteUser order={order} />
                 </div>
               </div>
             ))}
