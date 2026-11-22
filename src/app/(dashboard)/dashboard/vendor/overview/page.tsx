@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Clock, CheckCircle2, Eye, Utensils, MapPin, Tag } from "lucide-react";
 import { useSession } from "@/lib/auth-client";
+import Link from "next/link";
 
 type TMenuItem = {
   _id: string;
@@ -138,13 +139,15 @@ export default function RecentItems() {
                   {item.status || "Pending"}
                 </span>
 
-                <button
-                  type="button"
-                  title="View item"
-                  className="rounded-lg bg-gray-100 p-2 text-gray-600 transition hover:bg-orange-100 hover:text-orange-600"
-                >
-                  <Eye size={16} />
-                </button>
+                <Link href={`/cards/${item._id}`}>
+                  <button
+                    type="button"
+                    title="View item"
+                    className="rounded-lg bg-gray-100 p-2 text-gray-600 transition hover:bg-orange-100 hover:text-orange-600"
+                  >
+                    <Eye size={16} />
+                  </button>
+                </Link>
               </div>
             </div>
           ))}
