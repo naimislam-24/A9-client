@@ -206,7 +206,7 @@ const VendorProducts = () => {
     const fetchProducts = async () => {
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/usersvendor`,
+          `${process.env.NEXT_PUBLIC_API_URL}/usersvendor/approved`,
         );
 
         if (!res.ok) {
