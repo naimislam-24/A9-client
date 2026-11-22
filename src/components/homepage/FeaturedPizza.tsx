@@ -29,7 +29,7 @@ export default function FeaturedPizzas() {
       try {
         const res = await fetch(
           // `${process.env.NEXT_PUBLIC_API_URL}/usersvendor/featured/${session?.user?.email}`,
-          `${process.env.NEXT_PUBLIC_API_URL}/usersvendor`,
+          `${process.env.NEXT_PUBLIC_API_URL}/usersvendor/approved`,
           { cache: "no-store" },
         );
 
