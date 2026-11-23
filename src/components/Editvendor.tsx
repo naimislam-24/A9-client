@@ -717,13 +717,15 @@ const Editvendor = ({ item }: EditvendorProps) => {
       <Dialog>
         <DialogTrigger>
           {" "}
-          <button
-            type="button"
-            title="Edit item"
-            className="rounded-lg border border-gray-200 p-2 text-gray-500 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            <Pencil size={16} />
-          </button>
+          <div className="">
+            <button
+              type="button"
+              title="Edit item"
+              className="rounded-lg border border-gray-200 p-2 text-gray-500 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              <Pencil size={16} />
+            </button>
+          </div>
         </DialogTrigger>
 
         <DialogContent className={"min-w-xl"}>

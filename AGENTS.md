@@ -10,29 +10,33 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 # Project
 
-Next.js 16 App Router client for PizzaHub. Backend is separate Express/MongoDB service in sibling `../server` (own git repo) on port 5000; this repo tracks only the client.
+Next.js 16 App Router client for PizzaHub. Backend is a separate Express/MongoDB service in sibling `../server` (own git repo) listening on :5000; this repo tracks only the client.
 
 ## Commands
 
-- Dev: start backend first `cd ../server && node index.js`, then `npm run dev` (client :3000). Backend has no npm scripts (ESM; run with node). Requires both .env files.
-- Lint: `npm run lint`. Typecheck: `npx tsc --noEmit`. Build: `npm run build`. Prod start: `npm run start`.
-- No test suite or test scripts exist.
+- Dev: start backend first — `cd ../server && node index.js` (:5000) — then `npm run dev` (client :3000). Backend has no usable npm scripts (ESM; run with node). Both `.env` files are required.
+- Verification: `npm run lint` (eslint flat config), `npx tsc --noEmit`, `npm run build`. No tests, no CI, no formatter.
 
 ## Environment
 
-- `.env` gitignored but required locally. Keys: NEXT_PUBLIC_API_URL, NEXT_PUBLIC_IMGBB, BETTER_AUTH_SECRET, BETTER_AUTH_URL, MONGODB_URI, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET.
-- Server `../server/.env`: MONGODB_URI, CLIENT_URL.
-- Client auth and backend share MongoDB database `pizzahub` (Atlas). Auth via better-auth; app data in `usersvendor`.
+- Client `.env` (gitignored, required): NEXT_PUBLIC_API_URL, NEXT_PUBLIC_IMGBB, BETTER_AUTH_SECRET, BETTER_AUTH_URL, MONGODB_URI, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, STRIPE_SECRET_KEY, NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY.
+- Server `../server/.env`: MONGODB_URI, CLIENT_URL, STRIPE_SECRET_KEY (optional: AUTH_JWKS_URL).
+- Both sides share Atlas DB `pizzahub`. Collections: better-auth's `user`/`account`/`session`, plus app data in `user` (the same collection the server PATCHes for role/premium), `usersvendor` (menu items), `usersorder`, `payments`.
 
 ## Architecture
 
-- Path alias `@/*` -> `./src/*`. shadcn base-nova UI in `src/components/ui`; globals in `src/app/globals.css`.
-- Auth: better-auth with mongo adapter, email/password + Google; user has role field admin/user/vendor. Client `src/lib/auth-client.ts`; handler `src/app/api/auth/[...all]/route.ts`.
-- Data flow: vendor menu items upload image to ImgBB, then POST JSON to backend `/usersvendor`; reads from same endpoint. New items start Pending until admin approval.
-- Images: uploads via ImgBB; next.config remotePatterns hostname `***`; many img/unoptimized next/image usages.
+- Path alias `@/*` -> `./src/*`. shadcn style `base-nova`; Tailwind v4 is CSS-first (no tailwind.config; theme lives in `src/app/globals.css`). `cn` comes from the `cn` npm package, re-exported by `src/lib/utils.ts`.
+- Auth: better-auth (mongo adapter, email/password + Google, JWT plugin); user role is `admin | user | vendor`. The UI calls role `user` "customer": sign-up maps "customer" -> role `user`, and customer routes are `/dashboard/customer/*`.
+- Route gating lives in `src/proxy.ts` (Next 16's replacement for middleware.ts): redirects to /sign-in when logged out, and its matcher lists paths one by one — add new dashboard routes there. It checks login only, never role; nothing enforces roles server-side.
+- Express API: most routes require `Authorization: Bearer <better-auth JWT>` — get it via `getTokenFromClient()` (`src/lib/getTokenFromClient.ts`); the server verifies it against better-auth's JWKS. Public: GET /usersvendor, GET /usersvendor/approved, POST /payments/checkout-verify.
+- Menu flow: addmenu uploads the image to ImgBB, then POSTs JSON to `${NEXT_PUBLIC_API_URL}/usersvendor` with the Bearer token; the server enforces the free-plan limit (3 items) and starts new items at `approvalStatus: "Pending"` until an admin approves. Public reads use GET /usersvendor/approved.
+- Stripe checkout: `src/app/api/checkout_sessions/route.ts` creates the session (hardcoded price ID) -> `(dashboard)/success` page -> server action `checkoutVerify` (`src/lib/actions/Payments.ts`) -> backend POST /payments/checkout-verify sets `premium: true`.
+- Images: `next.config.ts` remotePatterns hostname is the literal `***`, so no real remote hosts are allowed — existing code uses plain `<img>` or `unoptimized`.
 
 ## Quirks
 
-- Baseline `npm run lint` is not clean (react-hooks rules, JSX-in-try, img warnings); typecheck is clean. Do not chase lint unless asked.
-- React Compiler enabled; Turbopack handles CSS via @tailwindcss/turbopack rule in next.config.ts.
-- `.env*` gitignored; never commit secrets. `.next/` ignored.
+- Lint baseline is not clean: 3 errors (`react-hooks/set-state-in-effect` in `(dashboard)/dashboard/vendor/subscription/page.tsx`, `ui/carousel.tsx`, `hooks/use-mobile.ts`) plus ~21 warnings (mostly no-img-element, no-unused-vars). Do not chase lint unless asked.
+- Typecheck is clean except current Stripe WIP: `src/app/api/checkout_sessions/route.ts` has 1 error (`metadata.userId` is `string | undefined`).
+- The server verifies JWTs against the client's JWKS at `http://localhost:3000/api/auth/jwks` (override with AUTH_JWKS_URL) — the client must run on port 3000 or every authenticated backend call fails.
+- React Compiler is enabled; Turbopack serves CSS via the `@tailwindcss/turbopack` rule in next.config.ts.
+- `.env*` gitignored; never commit secrets. `.next/` and `tsconfig.tsbuildinfo` ignored.

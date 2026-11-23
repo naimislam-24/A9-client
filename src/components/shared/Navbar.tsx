@@ -140,26 +140,28 @@ const Navbar = () => {
         <div className="md:hidden">
           <Sheet>
             <SheetTrigger>
-              <Button
-                variant="outline"
-                className="flex h-11 w-auto items-center gap-3 rounded-xl border-orange-200 bg-white px-2.5 text-gray-800 shadow-sm hover:bg-red-50"
-                aria-label="Open navigation menu"
-              >
-                {!isPending && user && (
-                  <Avatar className="h-8 w-8 border border-orange-200">
-                    <AvatarImage
-                      src={user.image || ""}
-                      alt={user.name || "User"}
-                    />
+              <div className="">
+                <Button
+                  variant="outline"
+                  className="flex h-11 w-auto items-center gap-3 rounded-xl border-orange-200 bg-white px-2.5 text-gray-800 shadow-sm hover:bg-red-50"
+                  aria-label="Open navigation menu"
+                >
+                  {!isPending && user && (
+                    <Avatar className="h-8 w-8 border border-orange-200">
+                      <AvatarImage
+                        src={user.image || ""}
+                        alt={user.name || "User"}
+                      />
 
-                    <AvatarFallback className="bg-red-50 text-sm font-bold text-red-600">
-                      {user.name?.charAt(0)?.toUpperCase() || "U"}
-                    </AvatarFallback>
-                  </Avatar>
-                )}
+                      <AvatarFallback className="bg-red-50 text-sm font-bold text-red-600">
+                        {user.name?.charAt(0)?.toUpperCase() || "U"}
+                      </AvatarFallback>
+                    </Avatar>
+                  )}
 
-                <Menu className="h-6 w-6 shrink-0 text-gray-700" />
-              </Button>
+                  <Menu className="h-6 w-6 shrink-0 text-gray-700" />
+                </Button>
+              </div>
             </SheetTrigger>
 
             <SheetContent
