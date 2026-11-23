@@ -11,7 +11,6 @@
 // import { Pencil } from "lucide-react";
 // import React, { FormEvent, useEffect, useState } from "react";
 // import {
-//   Pizza,
 //   ImagePlus,
 //   X,
 //   Loader2,
@@ -50,14 +49,13 @@
 // }
 
 // const Editvendor = ({ item }: EditvendorProps) => {
-//   // console.log(item);
-
 //   const [loading, setLoading] = useState(false);
 //   const [image, setImage] = useState<File | null>(null);
-//   // const [imagePreview, setImagePreview] = useState<string | null>(null);
+
 //   const [imagePreview, setImagePreview] = useState<string | null>(
 //     item?.imageUrl || null,
 //   );
+
 //   const [message, setMessage] = useState({
 //     type: "",
 //     text: "",
@@ -107,13 +105,6 @@
 
 //     setMessage({ type: "", text: "" });
 
-//     // if (!image) {
-//     //   setMessage({
-//     //     type: "error",
-//     //     text: "Please upload an item image.",
-//     //   });
-//     //   return;
-//     // }
 //     if (!image && !item?.imageUrl) {
 //       setMessage({
 //         type: "error",
@@ -128,9 +119,6 @@
 //       const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 //       const imgbbKey = process.env.NEXT_PUBLIC_IMGBB;
 
-//       // if (!apiUrl || !imgbbKey) {
-//       //   throw new Error("API configuration is missing.");
-//       // }
 //       if (!apiUrl) {
 //         throw new Error("API configuration is missing.");
 //       }
@@ -176,10 +164,13 @@
 //         imageUrl,
 //       };
 
-//       // 3. POST menu item to backend
-//       const { _id, ...updateData } = menuItem;
+//       // 3. Prepare update data
+//       const updateData = menuItem;
 
+//       // 4. Get token
 //       const token = await getTokenFromClient();
+
+//       // 5. Update menu item
 //       const response = await fetch(
 //         `${apiUrl.replace(/\/$/, "")}/usersvendor/${item._id}`,
 //         {
@@ -226,18 +217,21 @@
 //       <Dialog>
 //         <DialogTrigger>
 //           {" "}
-//           <button
-//             type="button"
-//             title="Edit item"
-//             // disabled
-//             className="rounded-lg border border-gray-200 p-2 text-gray-500 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600 disabled:cursor-not-allowed disabled:opacity-60"
-//           >
-//             <Pencil size={16} />
-//           </button>
+//           <div className="">
+//             <button
+//               type="button"
+//               title="Edit item"
+//               className="rounded-lg border border-gray-200 p-2 text-gray-500 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600 disabled:cursor-not-allowed disabled:opacity-60"
+//             >
+//               <Pencil size={16} />
+//             </button>
+//           </div>
 //         </DialogTrigger>
+
 //         <DialogContent className={"min-w-xl"}>
 //           <DialogHeader>
 //             <DialogTitle>Edit Form</DialogTitle>
+
 //             <DialogDescription>
 //               <form onSubmit={handleSubmit} className="space-y-6 p-5 sm:p-8">
 //                 {/* Item Name */}
@@ -716,8 +710,7 @@ const Editvendor = ({ item }: EditvendorProps) => {
     <div>
       <Dialog>
         <DialogTrigger>
-          {" "}
-          <div className="">
+          <div>
             <button
               type="button"
               title="Edit item"
@@ -728,12 +721,18 @@ const Editvendor = ({ item }: EditvendorProps) => {
           </div>
         </DialogTrigger>
 
-        <DialogContent className={"min-w-xl"}>
-          <DialogHeader>
-            <DialogTitle>Edit Form</DialogTitle>
+        {/* <DialogContent className="w-[calc(100vw-1.5rem)] max-w-2xl max-h-[90dvh] overflow-y-auto overflow-x-hidden rounded-2xl p-0 sm:w-[calc(100vw-3rem)]"> */}
+        <DialogContent className="w-[calc(100vw-1.5rem)] max-w-2xl max-h-[82dvh] overflow-y-auto overflow-x-hidden rounded-2xl p-0 sm:w-[calc(100vw-3rem)] sm:max-w-3xl sm:max-h-[76dvh] lg:max-w-2xl lg:max-h-[85dvh]">
+          <DialogHeader className="px-4 pt-5 sm:px-7 sm:pt-7">
+            <DialogTitle className="text-lg font-bold text-gray-900 sm:text-2xl">
+              Edit Form
+            </DialogTitle>
 
             <DialogDescription>
-              <form onSubmit={handleSubmit} className="space-y-6 p-5 sm:p-8">
+              <form
+                onSubmit={handleSubmit}
+                className="space-y-5 p-4 sm:space-y-6 sm:p-6 lg:p-7"
+              >
                 {/* Item Name */}
                 <div>
                   <label className="mb-2 block text-sm font-semibold text-gray-700">
@@ -747,7 +746,7 @@ const Editvendor = ({ item }: EditvendorProps) => {
                     placeholder="e.g. Margherita Pizza"
                     required
                     maxLength={100}
-                    className="h-12 w-full rounded-xl border border-gray-200 bg-gray-50/50 px-4 text-sm text-gray-800 outline-none transition placeholder:text-gray-400 focus:border-red-400 focus:bg-white focus:ring-4 focus:ring-red-500/10"
+                    className="h-11 w-full rounded-xl border border-gray-200 bg-gray-50/50 px-3 text-sm text-gray-800 outline-none transition placeholder:text-gray-400 focus:border-red-400 focus:bg-white focus:ring-4 focus:ring-red-500/10 sm:h-12 sm:px-4"
                   />
                 </div>
 
@@ -767,7 +766,7 @@ const Editvendor = ({ item }: EditvendorProps) => {
                       name="category"
                       defaultValue={item?.category}
                       required
-                      className="h-12 w-full appearance-none rounded-xl border border-gray-200 bg-gray-50/50 pl-11 pr-4 text-sm text-gray-700 outline-none transition focus:border-red-400 focus:bg-white focus:ring-4 focus:ring-red-500/10"
+                      className="h-11 w-full appearance-none rounded-xl border border-gray-200 bg-gray-50/50 pl-11 pr-4 text-sm text-gray-700 outline-none transition focus:border-red-400 focus:bg-white focus:ring-4 focus:ring-red-500/10 sm:h-12"
                     >
                       <option value="" disabled>
                         Select a category
@@ -797,18 +796,18 @@ const Editvendor = ({ item }: EditvendorProps) => {
                     <textarea
                       name="description"
                       defaultValue={item?.description}
-                      rows={5}
+                      rows={4}
                       required
                       maxLength={1000}
                       placeholder="Describe your delicious menu item..."
-                      className="w-full resize-y rounded-xl border border-gray-200 bg-gray-50/50 py-3 pl-11 pr-4 text-sm text-gray-800 outline-none transition placeholder:text-gray-400 focus:border-red-400 focus:bg-white focus:ring-4 focus:ring-red-500/10"
+                      className="min-h-28 w-full resize-y rounded-xl border border-gray-200 bg-gray-50/50 py-3 pl-11 pr-4 text-sm text-gray-800 outline-none transition placeholder:text-gray-400 focus:border-red-400 focus:bg-white focus:ring-4 focus:ring-red-500/10 sm:min-h-32"
                     />
                   </div>
                 </div>
 
                 {/* Price & Location */}
-                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-                  <div>
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
+                  <div className="min-w-0">
                     <label className="mb-2 block text-sm font-semibold text-gray-700">
                       Price (৳) <span className="text-red-500">*</span>
                     </label>
@@ -827,12 +826,12 @@ const Editvendor = ({ item }: EditvendorProps) => {
                         step="0.01"
                         required
                         placeholder="Enter price"
-                        className="h-12 w-full rounded-xl border border-gray-200 bg-gray-50/50 pl-11 pr-4 text-sm outline-none transition focus:border-red-400 focus:bg-white focus:ring-4 focus:ring-red-500/10"
+                        className="h-11 w-full rounded-xl border border-gray-200 bg-gray-50/50 pl-11 pr-3 text-sm outline-none transition focus:border-red-400 focus:bg-white focus:ring-4 focus:ring-red-500/10 sm:h-12 sm:pr-4"
                       />
                     </div>
                   </div>
 
-                  <div>
+                  <div className="min-w-0">
                     <label className="mb-2 block text-sm font-semibold text-gray-700">
                       Location <span className="text-red-500">*</span>
                     </label>
@@ -849,7 +848,7 @@ const Editvendor = ({ item }: EditvendorProps) => {
                         name="location"
                         required
                         placeholder="Area / City"
-                        className="h-12 w-full rounded-xl border border-gray-200 bg-gray-50/50 pl-11 pr-4 text-sm outline-none transition focus:border-red-400 focus:bg-white focus:ring-4 focus:ring-red-500/10"
+                        className="h-11 w-full rounded-xl border border-gray-200 bg-gray-50/50 pl-11 pr-3 text-sm outline-none transition focus:border-red-400 focus:bg-white focus:ring-4 focus:ring-red-500/10 sm:h-12 sm:pr-4"
                       />
                     </div>
                   </div>
@@ -866,7 +865,7 @@ const Editvendor = ({ item }: EditvendorProps) => {
                       <img
                         src={imagePreview}
                         alt="Menu item preview"
-                        className="h-56 w-full object-cover sm:h-64"
+                        className="h-48 w-full object-cover sm:h-56 md:h-64"
                       />
 
                       <button
@@ -878,14 +877,14 @@ const Editvendor = ({ item }: EditvendorProps) => {
                         <X size={19} />
                       </button>
 
-                      <div className="bg-white px-4 py-3 text-sm font-medium text-gray-600">
+                      <div className="break-all bg-white px-4 py-3 text-sm font-medium text-gray-600">
                         {image?.name}
                       </div>
                     </div>
                   ) : (
                     <label
                       htmlFor="itemImage"
-                      className="flex min-h-44 cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-gray-200 bg-gray-50/70 px-4 py-8 text-center transition hover:border-red-400 hover:bg-red-50/40"
+                      className="flex min-h-36 cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-gray-200 bg-gray-50/70 px-4 py-7 text-center transition hover:border-red-400 hover:bg-red-50/40 sm:min-h-44"
                     >
                       <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-red-50 text-red-500">
                         <ImagePlus size={25} />
@@ -911,13 +910,13 @@ const Editvendor = ({ item }: EditvendorProps) => {
                 </div>
 
                 {/* Plan Notice */}
-                <div className="flex gap-3 rounded-xl border border-orange-100 bg-orange-50 p-4">
+                <div className="flex gap-3 rounded-xl border border-orange-100 bg-orange-50 p-3 sm:p-4">
                   <AlertCircle
                     size={20}
                     className="mt-0.5 shrink-0 text-orange-500"
                   />
 
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-sm font-bold text-gray-800">
                       Free Plan: 3 Active Items
                     </p>
@@ -932,7 +931,7 @@ const Editvendor = ({ item }: EditvendorProps) => {
                 {/* Response Message */}
                 {message.text && (
                   <div
-                    className={`flex items-start gap-2 rounded-xl p-4 text-sm ${
+                    className={`flex items-start gap-2 rounded-xl p-3 text-sm sm:p-4 ${
                       message.type === "success"
                         ? "border border-green-200 bg-green-50 text-green-700"
                         : "border border-red-200 bg-red-50 text-red-600"
@@ -944,12 +943,12 @@ const Editvendor = ({ item }: EditvendorProps) => {
                       <AlertCircle size={19} className="shrink-0" />
                     )}
 
-                    <p>{message.text}</p>
+                    <p className="break-words">{message.text}</p>
                   </div>
                 )}
 
                 {/* Submit Button */}
-                <div className="flex flex-col-reverse gap-3 border-t border-gray-100 pt-6 sm:flex-row sm:justify-end">
+                <div className="flex flex-col-reverse gap-3 border-t border-gray-100 pt-5 sm:flex-row sm:justify-end sm:pt-6">
                   <button
                     type="reset"
                     onClick={() => {
@@ -958,7 +957,7 @@ const Editvendor = ({ item }: EditvendorProps) => {
                       setMessage({ type: "", text: "" });
                     }}
                     disabled={loading}
-                    className="h-12 rounded-xl border border-gray-200 px-6 text-sm font-semibold text-gray-600 transition hover:bg-gray-50 disabled:opacity-50"
+                    className="h-11 w-full rounded-xl border border-gray-200 px-6 text-sm font-semibold text-gray-600 transition hover:bg-gray-50 disabled:opacity-50 sm:h-12 sm:w-auto"
                   >
                     Reset Form
                   </button>
@@ -966,7 +965,7 @@ const Editvendor = ({ item }: EditvendorProps) => {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="flex h-12 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-red-500 to-orange-500 px-7 text-sm font-bold text-white shadow-lg shadow-red-500/20 transition hover:-translate-y-0.5 hover:from-red-600 hover:to-orange-600 hover:shadow-red-500/30 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
+                    className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-red-500 to-orange-500 px-7 text-sm font-bold text-white shadow-lg shadow-red-500/20 transition hover:-translate-y-0.5 hover:from-red-600 hover:to-orange-600 hover:shadow-red-500/30 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 sm:h-12 sm:w-auto"
                   >
                     {loading ? (
                       <>
